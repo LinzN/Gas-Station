@@ -1,0 +1,4 @@
+main: de.linzn.localFuel.LocalFuelPlugin
+name: local-fuel
+version: ${project.version}
+depend: []
