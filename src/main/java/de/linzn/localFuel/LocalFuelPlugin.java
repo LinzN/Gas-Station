@@ -14,11 +14,9 @@ package de.linzn.localFuel;
 
 import de.azcore.azcoreRuntime.AZCoreRuntimeApp;
 import de.azcore.azcoreRuntime.modules.pluginModule.AZPlugin;
-import de.azcore.azcoreRuntime.taskManagment.operations.OperationRegister;
 import de.linzn.localFuel.data.CheckPriceCallback;
 import de.linzn.localFuel.data.FuelCommand;
 import de.linzn.localFuel.data.FuelData;
-import de.linzn.localFuel.data.FuelOperations;
 
 
 public class LocalFuelPlugin extends AZPlugin {
@@ -39,7 +37,6 @@ public class LocalFuelPlugin extends AZPlugin {
         this.getDefaultConfig().get("tanken.data.range", 10);
         this.getDefaultConfig().get("tanken.data.type", "e5");
         this.getDefaultConfig().save();
-        OperationRegister.addOperation("update_fuel_data", FuelOperations.update_fuel_data);
         AZCoreRuntimeApp.getInstance().getCommandModule().registerCommand("fuel", new FuelCommand());
         AZCoreRuntimeApp.getInstance().getCallBackService().registerCallbackListener(new CheckPriceCallback(), this);
     }

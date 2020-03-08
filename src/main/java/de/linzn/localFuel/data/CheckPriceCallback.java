@@ -14,8 +14,7 @@ package de.linzn.localFuel.data;
 import de.azcore.azcoreRuntime.AppLogger;
 import de.azcore.azcoreRuntime.taskManagment.AbstractCallback;
 import de.azcore.azcoreRuntime.taskManagment.CallbackTime;
-import de.azcore.azcoreRuntime.taskManagment.operations.OperationRegister;
-import de.azcore.azcoreRuntime.taskManagment.operations.TaskOperation;
+import de.azcore.azcoreRuntime.taskManagment.operations.OperationOutput;
 import de.azcore.azcoreRuntime.utils.Color;
 
 import java.util.concurrent.TimeUnit;
@@ -23,12 +22,12 @@ import java.util.concurrent.TimeUnit;
 public class CheckPriceCallback extends AbstractCallback {
     @Override
     public void operation() {
-        TaskOperation taskOperation = OperationRegister.getOperation("update_fuel_data");
-        addOperationData(taskOperation, null);
+        FuelOperation fuelOperation = new FuelOperation();
+        addOperationData(fuelOperation);
     }
 
     @Override
-    public void callback(Object object) {
+    public void callback(OperationOutput operationOutput) {
         AppLogger.debug(Color.GREEN + "Fuel database update complete");
     }
 

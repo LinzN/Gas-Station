@@ -11,13 +11,17 @@
 
 package de.linzn.localFuel.data;
 
-import de.azcore.azcoreRuntime.taskManagment.operations.TaskOperation;
+import de.azcore.azcoreRuntime.taskManagment.operations.AbstractOperation;
+import de.azcore.azcoreRuntime.taskManagment.operations.OperationOutput;
 import de.linzn.localFuel.LocalFuelPlugin;
 
 
-public class FuelOperations {
-    public static TaskOperation update_fuel_data = o -> {
+public class FuelOperation extends AbstractOperation {
+    @Override
+    public OperationOutput runOperation() {
+        OperationOutput operationOutput = new OperationOutput(this);
         LocalFuelPlugin.localFuelPlugin.fuelData.updateData();
-        return null;
-    };
+        operationOutput.setExit(0);
+        return operationOutput;
+    }
 }
