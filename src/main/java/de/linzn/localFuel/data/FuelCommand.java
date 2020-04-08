@@ -12,9 +12,9 @@
 package de.linzn.localFuel.data;
 
 
-import de.azcore.azcoreRuntime.AppLogger;
-import de.azcore.azcoreRuntime.modules.commandModule.ICommand;
 import de.linzn.localFuel.LocalFuelPlugin;
+import de.stem.stemSystem.AppLogger;
+import de.stem.stemSystem.modules.commandModule.ICommand;
 
 import java.util.ArrayList;
 

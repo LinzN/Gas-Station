@@ -11,9 +11,10 @@
 
 package de.linzn.localFuel.data;
 
-import de.azcore.azcoreRuntime.taskManagment.operations.AbstractOperation;
-import de.azcore.azcoreRuntime.taskManagment.operations.OperationOutput;
+
 import de.linzn.localFuel.LocalFuelPlugin;
+import de.stem.stemSystem.taskManagment.operations.AbstractOperation;
+import de.stem.stemSystem.taskManagment.operations.OperationOutput;
 
 
 public class FuelOperation extends AbstractOperation {
