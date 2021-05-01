@@ -12,7 +12,7 @@
 package de.linzn.localFuel.data;
 
 
-import de.stem.stemSystem.AppLogger;
+import de.stem.stemSystem.STEMSystemApp;
 import de.stem.stemSystem.taskManagment.AbstractCallback;
 import de.stem.stemSystem.taskManagment.CallbackTime;
 import de.stem.stemSystem.taskManagment.operations.OperationOutput;
@@ -29,7 +29,7 @@ public class CheckPriceCallback extends AbstractCallback {
 
     @Override
     public void callback(OperationOutput operationOutput) {
-        AppLogger.debug(Color.GREEN + "Fuel database update complete");
+        STEMSystemApp.LOGGER.DEBUG(Color.GREEN + "Fuel database update complete");
     }
 
     @Override

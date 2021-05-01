@@ -13,7 +13,7 @@ package de.linzn.localFuel.data;
 
 
 import de.linzn.localFuel.LocalFuelPlugin;
-import de.stem.stemSystem.AppLogger;
+import de.stem.stemSystem.STEMSystemApp;
 import de.stem.stemSystem.modules.commandModule.ICommand;
 
 import java.util.ArrayList;
@@ -23,16 +23,16 @@ public class FuelCommand implements ICommand {
     public boolean executeTerminal(String[] strings) {
         GasStation gasStation = LocalFuelPlugin.localFuelPlugin.fuelData.getCheapestGasStation();
         if (gasStation == null) {
-            AppLogger.logger("No data yet", false);
+            STEMSystemApp.LOGGER.LIVE("No data yet");
             return true;
         }
 
         if (strings.length > 0) {
             double range = Double.parseDouble(strings[0]);
             ArrayList<GasStation> gasStations = LocalFuelPlugin.localFuelPlugin.fuelData.getGasStationsInRange(range);
-            gasStations.forEach(gasStation1 -> AppLogger.logger(FuelHandler.formatOutput(gasStation1), false));
+            gasStations.forEach(gasStation1 -> STEMSystemApp.LOGGER.LIVE(FuelHandler.formatOutput(gasStation1)));
         } else {
-            AppLogger.logger(FuelHandler.formatOutput(gasStation), false);
+            STEMSystemApp.LOGGER.LIVE(FuelHandler.formatOutput(gasStation));
         }
         return true;
     }
