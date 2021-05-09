@@ -16,7 +16,6 @@ import de.stem.stemSystem.STEMSystemApp;
 import de.stem.stemSystem.taskManagment.AbstractCallback;
 import de.stem.stemSystem.taskManagment.CallbackTime;
 import de.stem.stemSystem.taskManagment.operations.OperationOutput;
-import de.stem.stemSystem.utils.Color;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +28,7 @@ public class CheckPriceCallback extends AbstractCallback {
 
     @Override
     public void callback(OperationOutput operationOutput) {
-        STEMSystemApp.LOGGER.DEBUG(Color.GREEN + "Fuel database update complete");
+        STEMSystemApp.LOGGER.DEBUG("Fuel database update complete");
     }
 
     @Override
