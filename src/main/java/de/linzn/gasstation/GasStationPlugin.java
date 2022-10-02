@@ -9,24 +9,24 @@
  *
  */
 
-package de.linzn.localFuel;
+package de.linzn.gasstation;
 
 
 
-import de.linzn.localFuel.data.CheckPriceCallback;
-import de.linzn.localFuel.data.FuelCommand;
-import de.linzn.localFuel.data.FuelData;
+import de.linzn.gasstation.data.CheckPriceCallback;
+import de.linzn.gasstation.data.FuelCommand;
+import de.linzn.gasstation.data.FuelData;
 import de.stem.stemSystem.STEMSystemApp;
 import de.stem.stemSystem.modules.pluginModule.STEMPlugin;
 
 
-public class LocalFuelPlugin extends STEMPlugin {
+public class GasStationPlugin extends STEMPlugin {
 
-    public static LocalFuelPlugin localFuelPlugin;
+    public static GasStationPlugin gasStationPlugin;
     public FuelData fuelData;
 
-    public LocalFuelPlugin() {
-        localFuelPlugin = this;
+    public GasStationPlugin() {
+        gasStationPlugin = this;
     }
 
     @Override

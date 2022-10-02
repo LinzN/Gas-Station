@@ -9,9 +9,9 @@
  *
  */
 
-package de.linzn.localFuel.data;
+package de.linzn.gasstation.data;
 
-import de.linzn.localFuel.LocalFuelPlugin;
+import de.linzn.gasstation.GasStationPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +23,7 @@ import java.nio.charset.Charset;
 public class FuelHandler {
 
     public static JSONArray getRawTankDataInRange(double lat, double lng, int range, String type) {
-        String key = LocalFuelPlugin.localFuelPlugin.getDefaultConfig().getString("tanken.apiKey");
+        String key = GasStationPlugin.gasStationPlugin.getDefaultConfig().getString("tanken.apiKey");
         String apiURL = "https://creativecommons.tankerkoenig.de/json/list.php?lat=" + lat + "&lng=" + lng + "&rad=" + range + "&sort=dist&type=" + type + "&apikey=" + key;
         try {
             return readJsonFromUrl(apiURL).getJSONArray("stations");

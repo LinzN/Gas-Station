@@ -9,10 +9,10 @@
  *
  */
 
-package de.linzn.localFuel.data;
+package de.linzn.gasstation.data;
 
 
-import de.linzn.localFuel.LocalFuelPlugin;
+import de.linzn.gasstation.GasStationPlugin;
 import de.stem.stemSystem.taskManagment.operations.AbstractOperation;
 import de.stem.stemSystem.taskManagment.operations.OperationOutput;
 
@@ -21,7 +21,7 @@ public class FuelOperation extends AbstractOperation {
     @Override
     public OperationOutput runOperation() {
         OperationOutput operationOutput = new OperationOutput(this);
-        LocalFuelPlugin.localFuelPlugin.fuelData.updateData();
+        GasStationPlugin.gasStationPlugin.fuelData.updateData();
         operationOutput.setExit(0);
         return operationOutput;
     }

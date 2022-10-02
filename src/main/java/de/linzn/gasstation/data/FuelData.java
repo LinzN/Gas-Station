@@ -9,9 +9,9 @@
  *
  */
 
-package de.linzn.localFuel.data;
+package de.linzn.gasstation.data;
 
-import de.linzn.localFuel.LocalFuelPlugin;
+import de.linzn.gasstation.GasStationPlugin;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -22,10 +22,10 @@ public class FuelData {
     private JSONArray rawData = null;
 
     public GasStation updateData() {
-        double lat = LocalFuelPlugin.localFuelPlugin.getDefaultConfig().getDouble("tanken.data.lat");
-        double lng = LocalFuelPlugin.localFuelPlugin.getDefaultConfig().getDouble("tanken.data.lng");
-        int range = LocalFuelPlugin.localFuelPlugin.getDefaultConfig().getInt("tanken.data.range");
-        String type = LocalFuelPlugin.localFuelPlugin.getDefaultConfig().getString("tanken.data.type");
+        double lat = GasStationPlugin.gasStationPlugin.getDefaultConfig().getDouble("tanken.data.lat");
+        double lng = GasStationPlugin.gasStationPlugin.getDefaultConfig().getDouble("tanken.data.lng");
+        int range = GasStationPlugin.gasStationPlugin.getDefaultConfig().getInt("tanken.data.range");
+        String type = GasStationPlugin.gasStationPlugin.getDefaultConfig().getString("tanken.data.type");
 
         rawData = FuelHandler.getRawTankDataInRange(lat, lng, range, type);
         GasStation tempCheapestGasStation = new GasStation(rawData.getJSONObject(0));

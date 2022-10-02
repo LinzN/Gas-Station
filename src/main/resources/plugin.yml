@@ -1,4 +1,4 @@
-main: de.linzn.localFuel.LocalFuelPlugin
-name: local-fuel
+main: de.linzn.gasstation.GasStationPlugin
+name: gas-station
 version: ${project.version}
 depend: []

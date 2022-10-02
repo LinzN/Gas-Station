@@ -9,7 +9,7 @@
  *
  */
 
-package de.linzn.localFuel.data;
+package de.linzn.gasstation.data;
 
 
 import de.stem.stemSystem.STEMSystemApp;
