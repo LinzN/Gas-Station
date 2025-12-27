@@ -12,10 +12,10 @@
 package de.linzn.gasstation.data;
 
 
-import de.stem.stemSystem.STEMSystemApp;
-import de.stem.stemSystem.taskManagment.AbstractCallback;
-import de.stem.stemSystem.taskManagment.CallbackTime;
-import de.stem.stemSystem.taskManagment.operations.OperationOutput;
+import de.linzn.stem.STEMApp;
+import de.linzn.stem.taskManagment.AbstractCallback;
+import de.linzn.stem.taskManagment.CallbackTime;
+import de.linzn.stem.taskManagment.operations.OperationOutput;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,7 +28,7 @@ public class CheckPriceCallback extends AbstractCallback {
 
     @Override
     public void callback(OperationOutput operationOutput) {
-        STEMSystemApp.LOGGER.DEBUG("Fuel database update complete");
+        STEMApp.LOGGER.DEBUG("Fuel database update complete");
     }
 
     @Override

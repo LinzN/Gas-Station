@@ -12,12 +12,11 @@
 package de.linzn.gasstation;
 
 
-
 import de.linzn.gasstation.data.CheckPriceCallback;
 import de.linzn.gasstation.data.FuelCommand;
 import de.linzn.gasstation.data.FuelData;
-import de.stem.stemSystem.STEMSystemApp;
-import de.stem.stemSystem.modules.pluginModule.STEMPlugin;
+import de.linzn.stem.STEMApp;
+import de.linzn.stem.modules.pluginModule.STEMPlugin;
 
 
 public class GasStationPlugin extends STEMPlugin {
@@ -38,12 +37,12 @@ public class GasStationPlugin extends STEMPlugin {
         this.getDefaultConfig().get("tanken.data.range", 10);
         this.getDefaultConfig().get("tanken.data.type", "e5");
         this.getDefaultConfig().save();
-        STEMSystemApp.getInstance().getCommandModule().registerCommand("fuel", new FuelCommand());
-        STEMSystemApp.getInstance().getCallBackService().registerCallbackListener(new CheckPriceCallback(), this);
+        STEMApp.getInstance().getCommandModule().registerCommand("fuel", new FuelCommand());
+        STEMApp.getInstance().getCallBackService().registerCallbackListener(new CheckPriceCallback(), this);
     }
 
     @Override
     public void onDisable() {
-        STEMSystemApp.getInstance().getCommandModule().unregisterCommand("fuel");
+        STEMApp.getInstance().getCommandModule().unregisterCommand("fuel");
     }
 }

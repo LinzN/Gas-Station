@@ -13,8 +13,8 @@ package de.linzn.gasstation.data;
 
 
 import de.linzn.gasstation.GasStationPlugin;
-import de.stem.stemSystem.taskManagment.operations.AbstractOperation;
-import de.stem.stemSystem.taskManagment.operations.OperationOutput;
+import de.linzn.stem.taskManagment.operations.AbstractOperation;
+import de.linzn.stem.taskManagment.operations.OperationOutput;
 
 
 public class FuelOperation extends AbstractOperation {
