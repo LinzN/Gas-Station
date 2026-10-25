@@ -16,7 +16,7 @@ import org.json.JSONObject;
 public class GasStation {
 
 
-    private JSONObject jsonObject;
+    private final JSONObject jsonObject;
 
     public GasStation(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
@@ -27,19 +27,19 @@ public class GasStation {
     }
 
     public String getName() {
-        return jsonObject.getString("name");
+        return jsonObject.optString("name", "");
     }
 
     public String getBrand() {
-        return jsonObject.getString("brand");
+        return jsonObject.optString("brand", "");
     }
 
     public String getStreet() {
-        return jsonObject.getString("street");
+        return jsonObject.optString("street", "");
     }
 
     public String getPlace() {
-        return jsonObject.getString("place");
+        return jsonObject.optString("place", "");
     }
 
     public double getLat() {
@@ -51,7 +51,14 @@ public class GasStation {
     }
 
     public double getDist() {
-        return jsonObject.getDouble("dist");
+        return jsonObject.optDouble("dist", Double.MAX_VALUE);
+    }
+
+    /**
+     * @return true if the station reports a price (closed stations do not)
+     */
+    public boolean hasPrice() {
+        return jsonObject.opt("price") instanceof Number;
     }
 
     public double getPrice() {
@@ -59,15 +66,34 @@ public class GasStation {
     }
 
     public boolean isOpen() {
-        return jsonObject.getBoolean("isOpen");
+        return jsonObject.optBoolean("isOpen", false);
     }
 
     public int getHouseNumber() {
-        return jsonObject.getInt("houseNumber");
+        /* the API delivers house numbers as text, e.g. "12a" */
+        return parseLeadingInt(jsonObject.optString("houseNumber", ""));
     }
 
     public int getPostCode() {
-        return jsonObject.getInt("postCode");
+        return parseLeadingInt(jsonObject.optString("postCode", ""));
+    }
+
+    private static int parseLeadingInt(String value) {
+        StringBuilder digits = new StringBuilder();
+        for (char c : value.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                break;
+            }
+            digits.append(c);
+        }
+        if (digits.isEmpty()) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(digits.toString());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     public JSONObject toJSON() {

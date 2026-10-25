@@ -11,18 +11,22 @@
 
 package de.linzn.gasstation.data;
 
-
 import de.linzn.gasstation.GasStationPlugin;
 import de.linzn.stem.taskManagment.operations.AbstractOperation;
 import de.linzn.stem.taskManagment.operations.OperationOutput;
 
-
 public class FuelOperation extends AbstractOperation {
+
     @Override
     public OperationOutput runOperation() {
         OperationOutput operationOutput = new OperationOutput(this);
-        GasStationPlugin.gasStationPlugin.fuelData.updateData();
-        operationOutput.setExit(0);
+        try {
+            GasStationPlugin.gasStationPlugin.fuelData.updateData();
+            operationOutput.setExit(0);
+        } catch (RuntimeException e) {
+            GasStationPlugin.gasStationPlugin.getPluginLogger().debug("Fuel update failed: " + e.getMessage());
+            operationOutput.setExit(1);
+        }
         return operationOutput;
     }
 }

@@ -11,28 +11,35 @@
 
 package de.linzn.gasstation.data;
 
-
 import de.linzn.gasstation.GasStationPlugin;
-import de.linzn.stem.STEMApp;
+import de.linzn.stem.api.StemLogger;
 import de.linzn.stem.modules.commandModule.ICommand;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FuelCommand implements ICommand {
+
     @Override
     public boolean executeTerminal(String[] strings) {
-        GasStation gasStation = GasStationPlugin.gasStationPlugin.fuelData.getCheapestGasStation();
+        StemLogger logger = GasStationPlugin.gasStationPlugin.getPluginLogger();
+        FuelData fuelData = GasStationPlugin.gasStationPlugin.fuelData;
+        GasStation gasStation = fuelData.getCheapestGasStation();
         if (gasStation == null) {
-            STEMApp.LOGGER.LIVE("No data yet");
+            logger.info("No data yet");
             return true;
         }
-
         if (strings.length > 0) {
-            double range = Double.parseDouble(strings[0]);
-            ArrayList<GasStation> gasStations = GasStationPlugin.gasStationPlugin.fuelData.getGasStationsInRange(range);
-            gasStations.forEach(gasStation1 -> STEMApp.LOGGER.LIVE(FuelHandler.formatOutput(gasStation1)));
+            double range;
+            try {
+                range = Double.parseDouble(strings[0].replace(',', '.'));
+            } catch (NumberFormatException e) {
+                logger.info("Usage: fuel [range in km]");
+                return true;
+            }
+            List<GasStation> gasStations = fuelData.getGasStationsInRange(range);
+            gasStations.forEach(station -> logger.info(FuelHandler.formatOutput(station)));
         } else {
-            STEMApp.LOGGER.LIVE(FuelHandler.formatOutput(gasStation));
+            logger.info(FuelHandler.formatOutput(gasStation));
         }
         return true;
     }

@@ -13,37 +13,62 @@ package de.linzn.gasstation.data;
 
 import de.linzn.gasstation.GasStationPlugin;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Latest fuel prices. Updated by the price callback, read by commands and other plugins.
+ * The station list is replaced as a whole, so readers always see a consistent snapshot.
+ */
 public class FuelData {
-    private GasStation cheapestGasStation = null;
-    private GasStation pastCheapestGasStation = null;
-    private JSONArray rawData = null;
+    private volatile GasStation cheapestGasStation = null;
+    private volatile GasStation pastCheapestGasStation = null;
+    private volatile List<GasStation> stations = List.of();
 
-    public GasStation updateData() {
+    /**
+     * Load current prices.
+     *
+     * @return the cheapest open station, or the previous value if the update failed
+     */
+    public synchronized GasStation updateData() {
         double lat = GasStationPlugin.gasStationPlugin.getDefaultConfig().getDouble("tanken.data.lat");
         double lng = GasStationPlugin.gasStationPlugin.getDefaultConfig().getDouble("tanken.data.lng");
         int range = GasStationPlugin.gasStationPlugin.getDefaultConfig().getInt("tanken.data.range");
         String type = GasStationPlugin.gasStationPlugin.getDefaultConfig().getString("tanken.data.type");
 
-        rawData = FuelHandler.getRawTankDataInRange(lat, lng, range, type);
-        GasStation tempCheapestGasStation = new GasStation(rawData.getJSONObject(0));
-        for (int i = 1; i < rawData.length(); i++) {
-            GasStation gasStation = new GasStation(rawData.getJSONObject(i));
-            if (gasStation.getPrice() < tempCheapestGasStation.getPrice()) {
+        JSONArray rawData = FuelHandler.getRawTankDataInRange(lat, lng, range, type);
+        if (rawData == null) {
+            throw new IllegalStateException("No fuel data received");
+        }
+
+        List<GasStation> newStations = new ArrayList<>();
+        GasStation tempCheapestGasStation = null;
+        for (int i = 0; i < rawData.length(); i++) {
+            JSONObject entry = rawData.optJSONObject(i);
+            if (entry == null) {
+                continue;
+            }
+            GasStation gasStation = new GasStation(entry);
+            newStations.add(gasStation);
+            /* closed stations have no price */
+            if (!gasStation.hasPrice()) {
+                continue;
+            }
+            if (tempCheapestGasStation == null || gasStation.getPrice() < tempCheapestGasStation.getPrice()) {
                 tempCheapestGasStation = gasStation;
             }
         }
-        if (cheapestGasStation != null) {
-            if (pastCheapestGasStation != null) {
-                pastCheapestGasStation = cheapestGasStation;
-            } else {
-                pastCheapestGasStation = tempCheapestGasStation;
-            }
+        this.stations = List.copyOf(newStations);
+        if (tempCheapestGasStation == null) {
+            return this.cheapestGasStation;
         }
-        cheapestGasStation = tempCheapestGasStation;
-        return cheapestGasStation;
+        if (this.cheapestGasStation != null) {
+            this.pastCheapestGasStation = this.cheapestGasStation;
+        }
+        this.cheapestGasStation = tempCheapestGasStation;
+        return tempCheapestGasStation;
     }
 
     public GasStation getPastCheapestGasStation() {
@@ -56,8 +81,7 @@ public class FuelData {
 
     public ArrayList<GasStation> getGasStationsInRange(double range) {
         ArrayList<GasStation> gasStations = new ArrayList<>();
-        for (int i = 0; i < rawData.length(); i++) {
-            GasStation gasStation = new GasStation(rawData.getJSONObject(i));
+        for (GasStation gasStation : this.stations) {
             if (gasStation.getDist() <= range) {
                 gasStations.add(gasStation);
             }
